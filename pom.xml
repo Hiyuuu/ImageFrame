@@ -24,7 +24,6 @@
     <build>
         <defaultGoal>clean install</defaultGoal>
         <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -133,22 +132,22 @@
             </properties>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.2.1</version>
-                        <configuration>
-                            <encoding>${project.build.sourceEncoding}</encoding>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-source-plugin</artifactId>-->
+<!--                        <version>3.2.0</version>-->
+<!--                        <configuration>-->
+<!--                            <encoding>${project.build.sourceEncoding}</encoding>-->
+<!--                        </configuration>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>attach-sources</id>-->
+<!--                                <goals>-->
+<!--                                    <goal>jar</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -216,7 +215,7 @@
         <dependency>
             <groupId>me.carleslc.Simple-YAML</groupId>
             <artifactId>Simple-Yaml</artifactId>
-            <version>1.8.1</version>
+            <version>1.8.4</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -241,7 +240,9 @@
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
             <version>1.20.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/library/craftbukkit-1.20.2.jar</systemPath>
+<!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>com.twelvemonkeys.imageio</groupId>

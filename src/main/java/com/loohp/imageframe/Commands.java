@@ -43,6 +43,7 @@ import com.loohp.imageframe.utils.ImageMapUtils;
 import com.loohp.imageframe.utils.MapUtils;
 import com.loohp.imageframe.utils.PlayerUtils;
 import net.md_5.bungee.api.ChatColor;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -722,22 +723,35 @@ public class Commands implements CommandExecutor, TabCompleter {
                                     }
                                     try {
                                         imageMap.update();
-                                        sender.sendMessage(ImageFrame.messageImageMapRefreshed);
+                                        if (StringUtils.isNotBlank(ImageFrame.messageImageMapRefreshed)) {
+                                            Bukkit.getConsoleSender().sendMessage(ImageFrame.messageImageMapRefreshed);
+                                        }
+                                        // sender.sendMessage(ImageFrame.messageImageMapRefreshed);
                                     } catch (Throwable e) {
                                         urlImageMap.setUrl(oldUrl);
-                                        sender.sendMessage(ImageFrame.messageUnableToLoadMap);
+                                        if (StringUtils.isNotBlank(ImageFrame.messageUnableToLoadMap)) {
+                                            Bukkit.getConsoleSender().sendMessage(ImageFrame.messageUnableToLoadMap);
+                                        }
+//                                        sender.sendMessage(ImageFrame.messageUnableToLoadMap);
                                         e.printStackTrace();
                                     }
                                 } else {
                                     imageMap.update();
-                                    sender.sendMessage(ImageFrame.messageImageMapRefreshed);
+                                    if (StringUtils.isNotBlank(ImageFrame.messageImageMapRefreshed)) {
+                                        Bukkit.getConsoleSender().sendMessage(ImageFrame.messageImageMapRefreshed);
+                                    }
+//                                    sender.sendMessage(ImageFrame.messageImageMapRefreshed);
                                 }
                             } catch (Exception e) {
-                                sender.sendMessage(ImageFrame.messageUnableToLoadMap);
+                                if (StringUtils.isNotBlank(ImageFrame.messageUnableToLoadMap)) {
+                                    Bukkit.getConsoleSender().sendMessage(ImageFrame.messageUnableToLoadMap);
+//                                sender.sendMessage(ImageFrame.messageUnableToLoadMap);
+                                }
                                 e.printStackTrace();
                             }
                         } else {
-                            sender.sendMessage(ImageFrame.messageNoPermission);
+                            Bukkit.getConsoleSender().sendMessage(ImageFrame.messageNoPermission);
+//                            sender.sendMessage(ImageFrame.messageNoPermission);
                         }
                     }
                 });

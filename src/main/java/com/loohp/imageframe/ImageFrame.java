@@ -85,14 +85,14 @@ public class ImageFrame extends JavaPlugin {
     public static String messageImageMapRenamed;
     public static String messageImageMapTogglePaused;
     public static String messageImageMapPlaybackJumpTo;
-    public static String messageImageMapPlayerPurge;
+    public static String messageNoPermission;
     public static String messageSetCreator;
     public static String messageUnableToLoadMap;
     public static String messageUnknownError;
     public static String messageImageOverMaxFileSize;
     public static String messageNotAnImageMap;
     public static List<String> messageURLImageMapInfo;
-    public static String messageNoPermission;
+    public static String messageImageMapPlayerPurge;
     public static String messageNoConsole;
     public static String messageInvalidUsage;
     public static String messagePlayerNotFound;
