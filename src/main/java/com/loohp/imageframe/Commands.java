@@ -60,18 +60,9 @@ import org.bukkit.map.MapView;
 import org.bukkit.util.Vector;
 
 import java.io.IOException;
+import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -685,6 +676,52 @@ public class Commands implements CommandExecutor, TabCompleter {
                 sender.sendMessage(ImageFrame.messageNoPermission);
             }
             return true;
+        } else if (args[0].equalsIgnoreCase("refreshAll")) {
+
+            Scheduler.runTaskAsynchronously(ImageFrame.plugin, () -> {
+
+                Collection<ImageMap> maps = ImageFrame.imageMapManager.getMaps();
+                maps.forEach(map -> {
+                    UUID creatorUUID = map.getCreator();
+                    String name = map.getName();
+                    ImageMap imageMap = ImageFrame.imageMapManager.getFromCreator(creatorUUID, name);
+
+
+
+                    try {
+                        imageMap.update();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+            });
+
+            return true;
+        } else if (args[0].equalsIgnoreCase("seturl")) {
+
+            Scheduler.runTaskAsynchronously(ImageFrame.plugin, () -> {
+
+                Collection<ImageMap> maps = ImageFrame.imageMapManager.getMaps();
+                maps.forEach(map -> {
+                    UUID creatorUUID = map.getCreator();
+                    String name = map.getName();
+                    ImageMap imageMap = ImageFrame.imageMapManager.getFromCreator(creatorUUID, name);
+
+                    if (imageMap instanceof URLImageMap && args.length >= 2 && name.equalsIgnoreCase(args[1])) {
+
+                        String url = args[2];
+                        ((URLImageMap) imageMap).setUrl(url);
+                        try {
+                            imageMap.update();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            });
+
+            return true;
         } else if (args[0].equalsIgnoreCase("refresh")) {
             if (sender.hasPermission("imageframe.refresh")) {
                 Scheduler.runTaskAsynchronously(ImageFrame.plugin, () -> {
@@ -1273,6 +1310,9 @@ public class Commands implements CommandExecutor, TabCompleter {
                 if (sender.hasPermission("imageframe.refresh")) {
                     tab.add("refresh");
                 }
+                if (sender.hasPermission("imageframe.refreshall")) {
+                    tab.add("refreshall");
+                }
                 if (sender.hasPermission("imageframe.rename")) {
                     tab.add("rename");
                 }
@@ -1347,6 +1387,11 @@ public class Commands implements CommandExecutor, TabCompleter {
                 if (sender.hasPermission("imageframe.refresh")) {
                     if ("refresh".startsWith(args[0].toLowerCase())) {
                         tab.add("refresh");
+                    }
+                }
+                if (sender.hasPermission("imageframe.refreshall")) {
+                    if ("refreshall".startsWith(args[0].toLowerCase())) {
+                        tab.add("refreshall");
                     }
                 }
                 if (sender.hasPermission("imageframe.rename")) {
@@ -1438,6 +1483,12 @@ public class Commands implements CommandExecutor, TabCompleter {
                 }
                 if (sender.hasPermission("imageframe.refresh")) {
                     if ("refresh".equalsIgnoreCase(args[0])) {
+                        tab.add("[url]");
+                        tab.addAll(ImageMapUtils.getImageMapNameSuggestions(sender, args[1]));
+                    }
+                }
+                if (sender.hasPermission("imageframe.refreshall")) {
+                    if ("refreshall".equalsIgnoreCase(args[0])) {
                         tab.add("[url]");
                         tab.addAll(ImageMapUtils.getImageMapNameSuggestions(sender, args[1]));
                     }
